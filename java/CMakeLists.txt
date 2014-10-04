@@ -3,9 +3,9 @@ find_package ( Java REQUIRED )
 set( JAR_NAME "webp-imageio.jar" )
 set( JAVA_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}" )
 set( JAR_PATH "${JAVA_OUTPUT_PATH}/${JAR_NAME}" )
-set( CLASSES_DIR "${JAVA_OUTPUT_PATH}/classes" )
-set( SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src" )
-set( RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources" )
+set( CLASSES_DIR "${JAVA_OUTPUT_PATH}/target/classes" )
+set( SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/main/java" )
+set( RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/main/resources" )
 
 file(
   GLOB_RECURSE JAVA_SOURCE_FILES
