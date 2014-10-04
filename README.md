@@ -11,9 +11,9 @@ webp-imageio is distributed under the [Apache Software License](https://www.apac
 - The WebP reader and writer can be used like any other Image I/O reader and writer.
 
 # Compiling
-- Install CMake 3.8 or newer. CMake can be downloaded from www.cmake.org or installed using
+- Install CMake 2.8 or newer. CMake can be downloaded from www.cmake.org or installed using
   your systems package manager.
-- Download [libwebp 0.4](https://webp.googlecode.com/files/libwebp-0.4.0.tar.gz) and extract it into the project directory
+- Download [libwebp 0.4.1](http://downloads.webmproject.org/releases/webp/libwebp-0.4.1.tar.gz) and extract it into the project directory
 - Run 'cmake .' in the root of directory of the project to generate the build scripts for your system.
 - Build the project using the generated build scripts.
 - The build scripts will generate a number of binaries

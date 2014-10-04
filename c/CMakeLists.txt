@@ -1,5 +1,5 @@
 set(
-  WEBP_HOME "${CMAKE_SOURCE_DIR}/libwebp-0.4.0"
+  WEBP_HOME "${CMAKE_SOURCE_DIR}/libwebp-0.4.1"
   CACHE FILEPATH "libwebp source directory"
 )
 
@@ -10,7 +10,6 @@ set(
   ${WEBP_HOME}/src/dec/frame.c
   ${WEBP_HOME}/src/dec/idec.c
   ${WEBP_HOME}/src/dec/io.c
-  ${WEBP_HOME}/src/dec/layer.c
   ${WEBP_HOME}/src/dec/quant.c
   ${WEBP_HOME}/src/dec/tree.c
   ${WEBP_HOME}/src/dec/vp8.c
@@ -25,20 +24,30 @@ set(
 
 set(
   DSP_DEC_OBJS
+  ${WEBP_HOME}/src/dsp/alpha_processing.c
   ${WEBP_HOME}/src/dsp/cpu.c
   ${WEBP_HOME}/src/dsp/dec.c
+  ${WEBP_HOME}/src/dsp/dec_clip_tables.c
+  ${WEBP_HOME}/src/dsp/dec_mips32.c
   ${WEBP_HOME}/src/dsp/dec_neon.c
   ${WEBP_HOME}/src/dsp/dec_sse2.c
   ${WEBP_HOME}/src/dsp/lossless.c
+  ${WEBP_HOME}/src/dsp/lossless_mips32.c
+  ${WEBP_HOME}/src/dsp/lossless_neon.c
+  ${WEBP_HOME}/src/dsp/lossless_sse2.c
   ${WEBP_HOME}/src/dsp/upsampling.c
   ${WEBP_HOME}/src/dsp/upsampling_neon.c
   ${WEBP_HOME}/src/dsp/upsampling_sse2.c
   ${WEBP_HOME}/src/dsp/yuv.c
+  ${WEBP_HOME}/src/dsp/yuv_mips32.c
+  ${WEBP_HOME}/src/dsp/yuv_sse2.c
 )
 
 set(
   DSP_ENC_OBJS
   ${WEBP_HOME}/src/dsp/enc.c
+  ${WEBP_HOME}/src/dsp/enc_avx2.c
+  ${WEBP_HOME}/src/dsp/enc_mips32.c
   ${WEBP_HOME}/src/dsp/enc_neon.c
   ${WEBP_HOME}/src/dsp/enc_sse2.c
 )
@@ -54,8 +63,11 @@ set(
   ${WEBP_HOME}/src/enc/frame.c
   ${WEBP_HOME}/src/enc/histogram.c
   ${WEBP_HOME}/src/enc/iterator.c
-  ${WEBP_HOME}/src/enc/layer.c
   ${WEBP_HOME}/src/enc/picture.c
+  ${WEBP_HOME}/src/enc/picture_csp.c
+  ${WEBP_HOME}/src/enc/picture_psnr.c
+  ${WEBP_HOME}/src/enc/picture_rescale.c
+  ${WEBP_HOME}/src/enc/picture_tools.c
   ${WEBP_HOME}/src/enc/quant.c
   ${WEBP_HOME}/src/enc/syntax.c
   ${WEBP_HOME}/src/enc/token.c
@@ -86,7 +98,6 @@ set(
 
 set(
   UTILS_DEC_OBJS
-  ${WEBP_HOME}/src/utils/alpha_processing.c
   ${WEBP_HOME}/src/utils/bit_reader.c
   ${WEBP_HOME}/src/utils/color_cache.c
   ${WEBP_HOME}/src/utils/filters.c
