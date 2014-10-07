@@ -4,7 +4,7 @@
 
    <groupId>com.github.lonnyj</groupId>
    <artifactId>webp-imageio</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
+   <version>1.0.1-SNAPSHOT</version>
 
    <name>WebP ImageIO</name>
    <description>Java Image I/O reader and writer for the Google WebP image format.</description>
@@ -101,6 +101,31 @@
             <plugin>
                <artifactId>maven-surefire-plugin</artifactId>
                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+            <plugin>
+               <groupId>org.eclipse.m2e</groupId>
+               <artifactId>lifecycle-mapping</artifactId>
+               <version>1.0.0</version>
+               <configuration>
+                  <lifecycleMappingMetadata>
+                     <pluginExecutions>
+                        <pluginExecution>
+                           <pluginExecutionFilter>
+                              <groupId>org.apache.maven.plugins</groupId>
+                              <artifactId>maven-jar-plugin</artifactId>
+                              <versionRange>[2.5,)</versionRange>
+                              <goals>
+                                 <goal>jar</goal>
+                              </goals>
+                           </pluginExecutionFilter>
+                           <action>
+                              <ignore></ignore>
+                           </action>
+                        </pluginExecution>
+                     </pluginExecutions>
+                  </lifecycleMappingMetadata>
+               </configuration>
             </plugin>
          </plugins>
       </pluginManagement>
@@ -381,4 +406,12 @@
          </build>
       </profile>
    </profiles>
+   <dependencies>
+      <dependency>
+         <groupId>org.testng</groupId>
+         <artifactId>testng</artifactId>
+         <version>6.8.8</version>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
 </project>
