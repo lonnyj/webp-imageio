@@ -15,7 +15,18 @@
  */
 package com.luciad.imageio.webp;
 
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.ComponentSampleModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferInt;
+import java.awt.image.DirectColorModel;
+import java.awt.image.RenderedImage;
+import java.awt.image.SampleModel;
+import java.awt.image.SinglePixelPackedSampleModel;
+import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.nio.ByteOrder;
 import java.util.Hashtable;
@@ -385,14 +396,15 @@ final class WebP {
   }
 
   private static byte[] extractComponentRGBAByte( int aWidth, int aHeight, ComponentSampleModel aSampleModel, DataBufferByte aDataBuffer ) {
+    // If the output image's width or height is larger than the sample model,
+    // create a new compatible sample model.
+    if (aWidth > aSampleModel.getWidth() || aHeight > aSampleModel.getHeight()) {
+      aSampleModel = (ComponentSampleModel) aSampleModel.createCompatibleSampleModel(aWidth, aHeight);
+    }
+
     byte[] out = new byte[ aWidth * aHeight * 4 ];
 
     int[] bankIndices = aSampleModel.getBankIndices();
-    byte[] rBank = aDataBuffer.getBankData()[ bankIndices[ 0 ] ];
-    byte[] gBank = aDataBuffer.getBankData()[ bankIndices[ 1 ] ];
-    byte[] bBank = aDataBuffer.getBankData()[ bankIndices[ 2 ] ];
-    byte[] aBank = aDataBuffer.getBankData()[ bankIndices[ 3 ] ];
-
     int[] bankOffsets = aSampleModel.getBandOffsets();
     int rScanIx = bankOffsets[ 0 ];
     int gScanIx = bankOffsets[ 1 ];
@@ -407,13 +419,13 @@ final class WebP {
       int bPixIx = bScanIx;
       int aPixIx = aScanIx;
       for ( int x = 0; x < aWidth; x++, b += 4 ) {
-        out[ b ] = rBank[ rPixIx ];
+        out[ b ] = (byte)aDataBuffer.getElem(bankIndices[ 0 ], rPixIx);
         rPixIx += pixelStride;
-        out[ b + 1 ] = gBank[ gPixIx ];
+        out[ b + 1 ] = (byte)aDataBuffer.getElem(bankIndices[ 1 ], gPixIx );
         gPixIx += pixelStride;
-        out[ b + 2 ] = bBank[ bPixIx ];
+        out[ b + 2 ] = (byte)aDataBuffer.getElem(bankIndices[ 2 ], bPixIx );
         bPixIx += pixelStride;
-        out[ b + 3 ] = aBank[ aPixIx ];
+        out[ b + 3 ] = (byte)aDataBuffer.getElem(bankIndices[ 3 ], aPixIx );
         aPixIx += pixelStride;
       }
       rScanIx += scanlineStride;
