@@ -5,13 +5,16 @@ import static org.testng.Assert.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -20,27 +23,46 @@ import org.testng.annotations.Test;
  */
 public class WebPWriterTest {
 
-   @BeforeSuite
-   public void beforeSuite() {
-      String libraryPath = System.getProperty("java.library.path");
-      if (libraryPath == null || "".equals(libraryPath)) {
-         libraryPath = ".." + File.separator + "c";
-      } else {
-         libraryPath = libraryPath + File.pathSeparator + ".." + File.separator + "c";
-      }
-   }
-
    /**
     * Test method for
     * {@link com.luciad.imageio.webp.WebPWriter#write(javax.imageio.metadata.IIOMetadata, javax.imageio.IIOImage, javax.imageio.ImageWriteParam)}
     * .
+    *
+    * @throws IOException
     */
-   @Test(enabled = false)
-   public void testWriteIIOMetadataIIOImageImageWriteParam() {
-      fail("Not yet implemented");
+   @Test(dataProvider = "testImages", enabled = true)
+   public void testWriteIIOMetadataIIOImageImageWriteParam(final RenderedImage im,
+         final String outputName) throws IOException {
+      final String extension = outputName.substring(outputName.lastIndexOf(".") + 1);
+
+      // get writer
+      final ImageWriter imgWriter = ImageIO.getImageWritersByFormatName(extension).next();
+      final ImageWriteParam imgWriteParams = new WebPWriteParam(null);
+      final String compressionType = imgWriteParams.getCompressionTypes()[0];
+      imgWriteParams.setCompressionType(compressionType);
+      final float compressionQuality = 0.9f;
+      // 0~1
+      imgWriteParams.setCompressionQuality(compressionQuality);
+      final OutputStream byteArrayOutputStream = new FileOutputStream(outputName);
+      try {
+         final ImageOutputStream imageOutputStream = ImageIO
+               .createImageOutputStream(byteArrayOutputStream);
+         imgWriter.setOutput(imageOutputStream);
+         imgWriter.write(null, new IIOImage(im, null, null), imgWriteParams);
+         final int length = (int) imageOutputStream.length();
+         assertTrue(length > 0);
+         // byte[] resultData = new byte[length];
+         // imageOutputStream.read(resultData, 0, length);
+         // return resultData;
+      } finally {
+         try {
+            byteArrayOutputStream.close();
+         } catch (final IOException e) {
+         }
+      }
    }
 
-   @Test(dataProvider = "testImages")
+   @Test(dataProvider = "testImages", enabled = true)
    public void testImageIoWrite(final RenderedImage im, final String outputName) throws IOException {
       final ByteArrayOutputStream baoStream = new ByteArrayOutputStream();
       ImageIO.write(im, "webp", baoStream);
