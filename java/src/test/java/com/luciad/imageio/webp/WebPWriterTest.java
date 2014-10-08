@@ -5,9 +5,9 @@ import static org.testng.Assert.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -19,7 +19,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * <code>WebPWriterTest</code> ...
+ * <code>WebPWriterTest</code> unit tests {@link WebPWriter}.
  */
 public class WebPWriterTest {
 
@@ -43,20 +43,19 @@ public class WebPWriterTest {
       final float compressionQuality = 0.9f;
       // 0~1
       imgWriteParams.setCompressionQuality(compressionQuality);
-      final OutputStream byteArrayOutputStream = new FileOutputStream(outputName);
+      final File parentDirectory = new File("target" + File.separator + "ImageWriter");
+      parentDirectory.mkdirs();
+      File file = new File(parentDirectory, outputName);
+   	final ImageOutputStream imageOutputStream = ImageIO
+   			.createImageOutputStream(file);
       try {
-         final ImageOutputStream imageOutputStream = ImageIO
-               .createImageOutputStream(byteArrayOutputStream);
          imgWriter.setOutput(imageOutputStream);
          imgWriter.write(null, new IIOImage(im, null, null), imgWriteParams);
          final int length = (int) imageOutputStream.length();
          assertTrue(length > 0);
-         // byte[] resultData = new byte[length];
-         // imageOutputStream.read(resultData, 0, length);
-         // return resultData;
       } finally {
          try {
-            byteArrayOutputStream.close();
+        	 imageOutputStream.close();
          } catch (final IOException e) {
          }
       }
@@ -67,7 +66,10 @@ public class WebPWriterTest {
       final ByteArrayOutputStream baoStream = new ByteArrayOutputStream();
       ImageIO.write(im, "webp", baoStream);
       assertTrue(baoStream.size() > 0);
-      final FileOutputStream foStream = new FileOutputStream(outputName);
+      final File parentDirectory = new File("target" + File.separator + "ImageIoWrite");
+      parentDirectory.mkdirs();
+      File file = new File(parentDirectory, outputName);
+      final FileOutputStream foStream = new FileOutputStream(file);
       baoStream.writeTo(foStream);
       foStream.close();
    }
