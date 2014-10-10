@@ -148,6 +148,13 @@ final class WebP {
     ColorModel colorModel = aRi.getColorModel();
     if ( colorModel instanceof ComponentColorModel ) {
       ComponentSampleModel sampleModel = ( ComponentSampleModel ) aRi.getSampleModel();
+
+      // If the output image's width or height is larger than the sample model,
+      // create a new compatible sample model.
+      if (width > sampleModel.getWidth() || height > sampleModel.getHeight()) {
+         sampleModel = (ComponentSampleModel) sampleModel.createCompatibleSampleModel(width, height);
+      }
+
       int type = sampleModel.getTransferType();
       if ( type == DataBuffer.TYPE_BYTE ) {
         return extractComponentRGBByte( width, height, sampleModel, ( ( DataBufferByte ) aRi.getData().getDataBuffer() ) );
@@ -216,10 +223,6 @@ final class WebP {
     byte[] out = new byte[ aWidth * aHeight * 3 ];
 
     int[] bankIndices = aSampleModel.getBankIndices();
-    int[] rBank = aDataBuffer.getBankData()[ bankIndices[ 0 ] ];
-    int[] gBank = aDataBuffer.getBankData()[ bankIndices[ 1 ] ];
-    int[] bBank = aDataBuffer.getBankData()[ bankIndices[ 2 ] ];
-
     int[] bankOffsets = aSampleModel.getBandOffsets();
     int rScanIx = bankOffsets[ 0 ];
     int gScanIx = bankOffsets[ 1 ];
@@ -232,11 +235,11 @@ final class WebP {
       int gPixIx = gScanIx;
       int bPixIx = bScanIx;
       for ( int x = 0; x < aWidth; x++, b += 3 ) {
-        out[ b ] = ( byte ) rBank[ rPixIx ];
+        out[b] = (byte) aDataBuffer.getElem(bankIndices[0], rPixIx);
         rPixIx += pixelStride;
-        out[ b + 1 ] = ( byte ) gBank[ gPixIx ];
+        out[b + 1] = (byte) aDataBuffer.getElem(bankIndices[1], gPixIx);
         gPixIx += pixelStride;
-        out[ b + 2 ] = ( byte ) bBank[ bPixIx ];
+        out[b + 2] = (byte) aDataBuffer.getElem(bankIndices[2], bPixIx);
         bPixIx += pixelStride;
       }
       rScanIx += scanlineStride;
@@ -250,10 +253,6 @@ final class WebP {
     byte[] out = new byte[ aWidth * aHeight * 3 ];
 
     int[] bankIndices = aSampleModel.getBankIndices();
-    byte[] rBank = aDataBuffer.getBankData()[ bankIndices[ 0 ] ];
-    byte[] gBank = aDataBuffer.getBankData()[ bankIndices[ 1 ] ];
-    byte[] bBank = aDataBuffer.getBankData()[ bankIndices[ 2 ] ];
-
     int[] bankOffsets = aSampleModel.getBandOffsets();
     int rScanIx = bankOffsets[ 0 ];
     int gScanIx = bankOffsets[ 1 ];
@@ -266,11 +265,11 @@ final class WebP {
       int gPixIx = gScanIx;
       int bPixIx = bScanIx;
       for ( int x = 0; x < aWidth; x++, b += 3 ) {
-        out[ b ] = rBank[ rPixIx ];
+        out[b] = (byte) aDataBuffer.getElem(bankIndices[0], rPixIx);
         rPixIx += pixelStride;
-        out[ b + 1 ] = gBank[ gPixIx ];
+        out[b + 1] = (byte) aDataBuffer.getElem(bankIndices[1], gPixIx);
         gPixIx += pixelStride;
-        out[ b + 2 ] = bBank[ bPixIx ];
+        out[b + 2] = (byte) aDataBuffer.getElem(bankIndices[2], bPixIx);
         bPixIx += pixelStride;
       }
       rScanIx += scanlineStride;
@@ -287,6 +286,13 @@ final class WebP {
     ColorModel colorModel = aRi.getColorModel();
     if ( colorModel instanceof ComponentColorModel ) {
       ComponentSampleModel sampleModel = ( ComponentSampleModel ) aRi.getSampleModel();
+
+      // If the output image's width or height is larger than the sample model,
+      // create a new compatible sample model.
+      if (width > sampleModel.getWidth() || height > sampleModel.getHeight()) {
+         sampleModel = (ComponentSampleModel) sampleModel.createCompatibleSampleModel(width, height);
+      }
+
       int type = sampleModel.getTransferType();
       if ( type == DataBuffer.TYPE_BYTE ) {
         return extractComponentRGBAByte( width, height, sampleModel, ( ( DataBufferByte ) aRi.getData().getDataBuffer() ) );
@@ -359,11 +365,6 @@ final class WebP {
     byte[] out = new byte[ aWidth * aHeight * 4 ];
 
     int[] bankIndices = aSampleModel.getBankIndices();
-    int[] rBank = aDataBuffer.getBankData()[ bankIndices[ 0 ] ];
-    int[] gBank = aDataBuffer.getBankData()[ bankIndices[ 1 ] ];
-    int[] bBank = aDataBuffer.getBankData()[ bankIndices[ 2 ] ];
-    int[] aBank = aDataBuffer.getBankData()[ bankIndices[ 3 ] ];
-
     int[] bankOffsets = aSampleModel.getBandOffsets();
     int rScanIx = bankOffsets[ 0 ];
     int gScanIx = bankOffsets[ 1 ];
@@ -378,13 +379,13 @@ final class WebP {
       int bPixIx = bScanIx;
       int aPixIx = aScanIx;
       for ( int x = 0; x < aWidth; x++, b += 4 ) {
-        out[ b ] = ( byte ) rBank[ rPixIx ];
+        out[b] = (byte) aDataBuffer.getElem(bankIndices[0], rPixIx);
         rPixIx += pixelStride;
-        out[ b + 1 ] = ( byte ) gBank[ gPixIx ];
+        out[b + 1] = (byte) aDataBuffer.getElem(bankIndices[1], gPixIx);
         gPixIx += pixelStride;
-        out[ b + 2 ] = ( byte ) bBank[ bPixIx ];
+        out[b + 2] = (byte) aDataBuffer.getElem(bankIndices[2], bPixIx);
         bPixIx += pixelStride;
-        out[ b + 3 ] = ( byte ) aBank[ aPixIx ];
+        out[b + 3] = (byte) aDataBuffer.getElem(bankIndices[3], aPixIx);
         aPixIx += pixelStride;
       }
       rScanIx += scanlineStride;
@@ -396,12 +397,6 @@ final class WebP {
   }
 
   private static byte[] extractComponentRGBAByte( int aWidth, int aHeight, ComponentSampleModel aSampleModel, DataBufferByte aDataBuffer ) {
-    // If the output image's width or height is larger than the sample model,
-    // create a new compatible sample model.
-    if (aWidth > aSampleModel.getWidth() || aHeight > aSampleModel.getHeight()) {
-      aSampleModel = (ComponentSampleModel) aSampleModel.createCompatibleSampleModel(aWidth, aHeight);
-    }
-
     byte[] out = new byte[ aWidth * aHeight * 4 ];
 
     int[] bankIndices = aSampleModel.getBankIndices();
@@ -419,13 +414,13 @@ final class WebP {
       int bPixIx = bScanIx;
       int aPixIx = aScanIx;
       for ( int x = 0; x < aWidth; x++, b += 4 ) {
-        out[ b ] = (byte)aDataBuffer.getElem(bankIndices[ 0 ], rPixIx);
+        out[b] = (byte) aDataBuffer.getElem(bankIndices[0], rPixIx);
         rPixIx += pixelStride;
-        out[ b + 1 ] = (byte)aDataBuffer.getElem(bankIndices[ 1 ], gPixIx );
+        out[b + 1] = (byte) aDataBuffer.getElem(bankIndices[1], gPixIx);
         gPixIx += pixelStride;
-        out[ b + 2 ] = (byte)aDataBuffer.getElem(bankIndices[ 2 ], bPixIx );
+        out[b + 2] = (byte) aDataBuffer.getElem(bankIndices[2], bPixIx);
         bPixIx += pixelStride;
-        out[ b + 3 ] = (byte)aDataBuffer.getElem(bankIndices[ 3 ], aPixIx );
+        out[b + 3] = (byte) aDataBuffer.getElem(bankIndices[3], aPixIx);
         aPixIx += pixelStride;
       }
       rScanIx += scanlineStride;
