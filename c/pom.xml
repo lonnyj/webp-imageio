@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <artifactId>webp-imageio-project</artifactId>
+      <groupId>com.github.lonnyj</groupId>
+      <version>1.0.1-SNAPSHOT</version>
+   </parent>
+
+   <artifactId>libwebp-imageio</artifactId>
+
+   <name>WebP ImageIO Native Library</name>
+   <description>Java Image I/O reader and writer for the Google WebP image format.</description>
+
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+      <!-- Plugin Versions -->
+      <build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
+      <maven-changelog-plugin.version>2.3</maven-changelog-plugin.version>
+      <maven-changes-plugin.version>2.9</maven-changes-plugin.version>
+      <maven-dependency-plugin.version>2.9</maven-dependency-plugin.version>
+      <maven-failsafe-plugin.version>${maven-surefire-plugin.version}</maven-failsafe-plugin.version>
+      <maven-javadoc-plugin.version>2.10</maven-javadoc-plugin.version>
+      <maven-source-plugin.version>2.3</maven-source-plugin.version>
+      <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
+      <versions-maven-plugin.version>2.1</versions-maven-plugin.version>
+   </properties>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>com.googlecode.cmake-maven-project</groupId>
+            <artifactId>cmake-maven-plugin</artifactId>
+            <version>2.8.11-b4</version>
+            <executions>
+               <execution>
+                  <id>cmake-generate</id>
+                  <goals>
+                     <goal>generate</goal>
+                  </goals>
+                  <configuration>
+                     <sourcePath>${basedir}</sourcePath>
+                     <targetPath>${basedir}</targetPath>
+                     <generator>Unix Makefiles</generator>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>cmake-compile</id>
+                  <goals>
+                     <goal>compile</goal>
+                  </goals>
+                  <configuration>
+                     <projectDirectory>${basedir}</projectDirectory>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+
+   <profiles>
+      <profile>
+         <id>download-libwebp</id>
+         <activation>
+            <file>
+               <missing>libwebp-0.4.1</missing>
+            </file>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>com.googlecode.maven-download-plugin</groupId>
+                  <artifactId>download-maven-plugin</artifactId>
+                  <version>1.2.0</version>
+                  <executions>
+                     <execution>
+                        <id>Download libwebp</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                           <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                           <url>http://downloads.webmproject.org/releases/webp/libwebp-0.4.1.tar.gz</url>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <artifactId>maven-antrun-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <id>Untar the libwebp archive</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                           <goal>run</goal>
+                        </goals>
+                        <configuration>
+                           <target>
+                              <untar compression="gzip" dest="${basedir}" src="${project.build.directory}/libwebp-0.4.1.tar.gz"></untar>
+                           </target>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
+</project>

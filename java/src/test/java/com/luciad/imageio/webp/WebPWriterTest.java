@@ -77,9 +77,8 @@ public class WebPWriterTest {
     * @throws IOException
     */
    @Test(dataProvider = "testImageOptions", enabled = true)
-   public void testWriteIIOMetadataIIOImageImageWriteParam(final RenderedImage im,
-         final String compressionType, final float compressionQuality, final String outputName)
-         throws IOException {
+   public void testWriteWriter(final RenderedImage im, final String compressionType,
+         final float compressionQuality, final String outputName) throws IOException {
       final String extension = outputName.substring(outputName.lastIndexOf(".") + 1);
 
       // get writer
@@ -137,7 +136,6 @@ public class WebPWriterTest {
             new Object[] { ImageIO.read(classLoader.getResource("1.png")), LOSSY_COMPRESSION_TYPE, 1f, "1_lossy_100.webp" },
             new Object[] { ImageIO.read(classLoader.getResource("1.png")), LOSSLESS_COMPRESSION_TYPE, 0f, "1_lossless_0.webp" },
             new Object[] { ImageIO.read(classLoader.getResource("1.png")), LOSSLESS_COMPRESSION_TYPE, 0.5f, "1_lossless_50.webp" },
-            new Object[] { ImageIO.read(classLoader.getResource("1.png")), LOSSLESS_COMPRESSION_TYPE, 0.9f, "1_lossless_90.webp" },
             new Object[] { ImageIO.read(classLoader.getResource("1.png")), LOSSLESS_COMPRESSION_TYPE, 1f, "1_lossless_100.webp" },
             new Object[] { ImageIO.read(classLoader.getResource("2.png")), LOSSY_COMPRESSION_TYPE, 0.9f, "2_lossy_90.webp" },
             new Object[] { ImageIO.read(classLoader.getResource("3.png")), LOSSY_COMPRESSION_TYPE, 0.9f, "3_lossy_90.webp" },

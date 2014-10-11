@@ -4,3 +4,6 @@
 /cmake_install.cmake
 /Makefile
 /libwebp-0.4.1.tar.gz
+/pom.xml.bak
+/.settings/
+/.project

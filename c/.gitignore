@@ -4,3 +4,11 @@
 /libwebp-imageio.dll.a
 /Makefile
 /libwebp-imageio.so
+/target/
+/libwebp-0.4.1/
+/.settings/
+/.classpath
+/.project
+/libwebp-imageio.dylib
+/pom.xml.bak
+/CMakeCache.txt

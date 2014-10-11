@@ -2,21 +2,60 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <artifactId>webp-imageio-project</artifactId>
-      <groupId>com.github.lonnyj</groupId>
-      <version>1.0.1-SNAPSHOT</version>
-   </parent>
-
    <groupId>com.github.lonnyj</groupId>
-   <artifactId>webp-imageio</artifactId>
+   <artifactId>webp-imageio-project</artifactId>
+   <version>1.0.1-SNAPSHOT</version>
+   <packaging>pom</packaging>
 
-   <name>WebP ImageIO</name>
+   <name>WebP ImageIO Project</name>
    <description>Java Image I/O reader and writer for the Google WebP image format.</description>
+   <url>http://lonnyj.github.com/webp-imageio</url>
+   <inceptionYear>2014</inceptionYear>
+
+   <licenses>
+      <license>
+         <name>The Apache Software License, Version 2.0</name>
+         <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+         <distribution>manual</distribution>
+         <comments>A business-friendly OSS license</comments>
+      </license>
+   </licenses>
+
+   <modules>
+      <module>c</module>
+      <module>java</module>
+   </modules>
+
+   <scm>
+      <connection>scm:git:git@${repository.domain}:${repository.user}/${repository.name}.git</connection>
+      <developerConnection>scm:git:git@${repository.domain}:${repository.user}/${repository.name}.git</developerConnection>
+      <tag>HEAD</tag>
+      <url>https://${repository.domain}/${repository.user}/${repository.name}</url>
+   </scm>
+
+   <issueManagement>
+      <system>GitHub</system>
+      <url>${issueLinkUrl}</url>
+   </issueManagement>
+
+   <distributionManagement>
+      <repository>
+         <id>bintray-lonny-maven-${repository.name}</id>
+         <name>lonny-maven-${repository.name}</name>
+         <url>https://api.bintray.com/maven/lonny/maven/${repository.name}</url>
+      </repository>
+   </distributionManagement>
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+      <!-- GitHub Properties -->
+      <issueLinkUrl>https://github.com/${repository.user}/${repository.name}/issues</issueLinkUrl>
+      <github.global.server>github</github.global.server>
+      <repository.domain>github.com</repository.domain>
+      <repository.user>lonnyj</repository.user>
+      <repository.name>${project.artifactId}</repository.name>
 
       <!-- Plugin Versions -->
       <build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
@@ -29,21 +68,6 @@
       <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
       <versions-maven-plugin.version>2.1</versions-maven-plugin.version>
    </properties>
-
-   <dependencies>
-      <dependency>
-         <groupId>com.github.lonnyj</groupId>
-         <artifactId>libwebp-imageio</artifactId>
-         <version>${project.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>org.testng</groupId>
-         <artifactId>testng</artifactId>
-         <version>6.8.8</version>
-         <scope>test</scope>
-      </dependency>
-   </dependencies>
 
    <build>
       <pluginManagement>
@@ -97,11 +121,12 @@
                      <pluginExecutions>
                         <pluginExecution>
                            <pluginExecutionFilter>
-                              <groupId>org.apache.maven.plugins</groupId>
-                              <artifactId>maven-jar-plugin</artifactId>
-                              <versionRange>[2.5,)</versionRange>
+                              <groupId>com.googlecode.cmake-maven-project</groupId>
+                              <artifactId>cmake-maven-plugin</artifactId>
+                              <versionRange>[2.8.11-b4,)</versionRange>
                               <goals>
-                                 <goal>jar</goal>
+                                 <goal>generate</goal>
+                                 <goal>compile</goal>
                               </goals>
                            </pluginExecutionFilter>
                            <action>
@@ -110,12 +135,11 @@
                         </pluginExecution>
                         <pluginExecution>
                            <pluginExecutionFilter>
-                              <groupId>com.googlecode.cmake-maven-project</groupId>
-                              <artifactId>cmake-maven-plugin</artifactId>
-                              <versionRange>[2.8.11-b4,)</versionRange>
+                              <groupId>org.apache.maven.plugins</groupId>
+                              <artifactId>maven-jar-plugin</artifactId>
+                              <versionRange>[2.5,)</versionRange>
                               <goals>
-                                 <goal>generate</goal>
-                                 <goal>compile</goal>
+                                 <goal>jar</goal>
                               </goals>
                            </pluginExecutionFilter>
                            <action>
@@ -129,84 +153,6 @@
          </plugins>
       </pluginManagement>
       <plugins>
-         <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.1</version>
-            <executions>
-               <execution>
-                  <id>Compile Optimized</id>
-                  <phase>prepare-package</phase>
-                  <goals>
-                     <goal>compile</goal>
-                  </goals>
-                  <configuration>
-                     <debug>false</debug>
-                     <optimize>true</optimize>
-                  </configuration>
-               </execution>
-            </executions>
-            <configuration>
-               <source>1.6</source>
-               <target>1.6</target>
-            </configuration>
-         </plugin>
-         <plugin>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>2.5</version>
-            <executions>
-               <execution>
-                  <id>Package debug</id>
-                  <phase>process-classes</phase>
-                  <goals>
-                     <goal>jar</goal>
-                  </goals>
-                  <configuration>
-                     <classifier>debug</classifier>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${maven-javadoc-plugin.version}</version>
-            <executions>
-               <execution>
-                  <id>attach-javadocs</id>
-                  <phase>deploy</phase>
-                  <goals>
-                     <goal>jar</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>${maven-source-plugin.version}</version>
-            <executions>
-               <execution>
-                  <id>attach-sources</id>
-                  <phase>deploy</phase>
-                  <goals>
-                     <goal>jar-no-fork</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <!-- Explicitly define maven-deploy-plugin after javadoc and source to
-               force the execution order. -->
-            <artifactId>maven-deploy-plugin</artifactId>
-            <version>2.8.2</version>
-            <executions>
-               <execution>
-                  <id>deploy</id>
-                  <phase>deploy</phase>
-                  <goals>
-                     <goal>deploy</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
          <plugin>
             <groupId>com.google.code.sortpom</groupId>
             <artifactId>maven-sortpom-plugin</artifactId>

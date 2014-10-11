@@ -1,3 +1,5 @@
+cmake_minimum_required( VERSION 2.8 )
+
 set(
   WEBP_HOME "${CMAKE_SOURCE_DIR}/libwebp-0.4.1"
   CACHE FILEPATH "libwebp source directory"
@@ -155,6 +157,13 @@ target_link_libraries( webp-imageio "m" )
 set_target_properties(
   webp-imageio PROPERTIES COMPILE_FLAGS "-Wextra -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wdeclaration-after-statement -Wshadow"
 )
+
+#
+# Fix include path for OSX
+#
+IF ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
+  include_directories("/usr/include/sys")
+endif()
 
 #
 # Strip 'lib' prefix when compiling for windows
