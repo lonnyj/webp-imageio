@@ -9,6 +9,7 @@
    </parent>
 
    <artifactId>libwebp-imageio</artifactId>
+   <packaging>pom</packaging>
 
    <name>WebP ImageIO Native Library</name>
    <description>Java Image I/O reader and writer for the Google WebP image format.</description>
