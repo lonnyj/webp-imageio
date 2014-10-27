@@ -28,6 +28,8 @@
       <maven-source-plugin.version>2.3</maven-source-plugin.version>
       <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
       <versions-maven-plugin.version>2.1</versions-maven-plugin.version>
+
+      <libwebp.version>0.4.2</libwebp.version>
    </properties>
 
    <build>
@@ -67,7 +69,7 @@
          <id>download-libwebp</id>
          <activation>
             <file>
-               <missing>libwebp-0.4.1</missing>
+               <missing>libwebp-0.4.2</missing>
             </file>
          </activation>
          <build>
@@ -84,7 +86,7 @@
                            <goal>wget</goal>
                         </goals>
                         <configuration>
-                           <url>http://downloads.webmproject.org/releases/webp/libwebp-0.4.1.tar.gz</url>
+                           <url>http://downloads.webmproject.org/releases/webp/libwebp-${libwebp.version}.tar.gz</url>
                         </configuration>
                      </execution>
                   </executions>
@@ -100,8 +102,44 @@
                         </goals>
                         <configuration>
                            <target>
-                              <untar compression="gzip" dest="${basedir}" src="${project.build.directory}/libwebp-0.4.1.tar.gz"></untar>
+                              <untar compression="gzip" dest="${basedir}" src="${project.build.directory}/libwebp-${libwebp.version}.tar.gz"></untar>
                            </target>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+      <profile>
+         <id>enforce-osx-include</id>
+         <activation>
+            <os>
+               <name>Mac OS X</name>
+            </os>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-enforcer-plugin</artifactId>
+                  <version>1.2</version>
+                  <executions>
+                     <execution>
+                        <id>Enforce /usr/include on OS X</id>
+                        <phase>validate</phase>
+                        <goals>
+                           <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                           <rules>
+                              <requireFilesExist>
+                                 <files>
+                                    <file>/usr/include</file>
+                                 </files>
+                                 <message>Download and install the Command Line Tools from Apple</message>
+                              </requireFilesExist>
+                           </rules>
+                           <fail>true</fail>
                         </configuration>
                      </execution>
                   </executions>

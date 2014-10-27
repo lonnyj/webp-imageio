@@ -1,7 +1,7 @@
 cmake_minimum_required( VERSION 2.8 )
 
 set(
-  WEBP_HOME "${CMAKE_SOURCE_DIR}/libwebp-0.4.1"
+  WEBP_HOME "${CMAKE_SOURCE_DIR}/libwebp-0.4.2"
   CACHE FILEPATH "libwebp source directory"
 )
 
@@ -26,6 +26,7 @@ set(
 
 set(
   DSP_DEC_OBJS
+  ${WEBP_HOME}/src/dsp/alpha_processing_sse2.c
   ${WEBP_HOME}/src/dsp/alpha_processing.c
   ${WEBP_HOME}/src/dsp/cpu.c
   ${WEBP_HOME}/src/dsp/dec.c
