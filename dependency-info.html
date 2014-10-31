@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>WebP ImageIO Project &#x2013; About</title>
+    <title>WebP ImageIO Project &#x2013; Dependency Information</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -57,8 +57,8 @@
                           <a href="project-info.html" title="Project Information">Project Information</a>
                     <ul>
                       <li class="none">
-            <strong>About</strong>
-          </li>
+                          <a href="index.html" title="About">About</a>
+            </li>
                       <li class="none">
                           <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
             </li>
@@ -66,8 +66,8 @@
                           <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
             </li>
                       <li class="none">
-                          <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
-            </li>
+            <strong>Dependency Information</strong>
+          </li>
                       <li class="none">
                           <a href="dependency-convergence.html" title="Dependency Convergence">Dependency Convergence</a>
             </li>
@@ -117,21 +117,44 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2><a name="About_WebP_ImageIO_Project"></a>About WebP ImageIO Project</h2><a name="About_WebP_ImageIO_Project"></a>
-<p>Java Image I/O reader and writer for the Google WebP image format.</p>
+<h2><a name="Dependency_Information"></a>Dependency Information</h2><a name="Dependency_Information"></a>
 <div class="section">
-<h3><a name="Project_Modules"></a>Project Modules</h3><a name="Project_Modules"></a>
-<p>This project has declared the following modules:</p>
-<table border="0" class="bodyTable">
-<tr class="a">
-<th>Name</th>
-<th>Description</th></tr>
-<tr class="b">
-<td><a href="libwebp-imageio/index.html">WebP ImageIO Native Library</a></td>
-<td>Java Image I/O reader and writer for the Google WebP image format.</td></tr>
-<tr class="a">
-<td><a href="webp-imageio/index.html">WebP ImageIO</a></td>
-<td>Java Image I/O reader and writer for the Google WebP image format.</td></tr></table></div></div>
+<h3><a name="Apache_Maven"></a>Apache Maven</h3><a name="Apache_Maven"></a>
+<div class="source">
+<pre>&lt;dependency&gt;
+  &lt;groupId&gt;com.github.lonnyj&lt;/groupId&gt;
+  &lt;artifactId&gt;webp-imageio-project&lt;/artifactId&gt;
+  &lt;version&gt;1.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3><a name="Apache_Buildr"></a>Apache Buildr</h3><a name="Apache_Buildr"></a>
+<div class="source">
+<pre>'com.github.lonnyj:webp-imageio-project:pom:1.0.1-SNAPSHOT'</pre></div></div>
+<div class="section">
+<h3><a name="Apache_Ant"></a>Apache Ant</h3><a name="Apache_Ant"></a>
+<div class="source">
+<pre>&lt;dependency org=&quot;com.github.lonnyj&quot; name=&quot;webp-imageio-project&quot; rev=&quot;1.0.1-SNAPSHOT&quot;&gt;
+  &lt;artifact name=&quot;webp-imageio-project&quot; type=&quot;pom&quot; /&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3><a name="Groovy_Grape"></a>Groovy Grape</h3><a name="Groovy_Grape"></a>
+<div class="source">
+<pre>@Grapes(
+@Grab(group='com.github.lonnyj', module='webp-imageio-project', version='1.0.1-SNAPSHOT')
+)</pre></div></div>
+<div class="section">
+<h3><a name="Grails"></a>Grails</h3><a name="Grails"></a>
+<div class="source">
+<pre>compile 'com.github.lonnyj:webp-imageio-project:1.0.1-SNAPSHOT'</pre></div></div>
+<div class="section">
+<h3><a name="Leiningen"></a>Leiningen</h3><a name="Leiningen"></a>
+<div class="source">
+<pre>[com.github.lonnyj/webp-imageio-project &quot;1.0.1-SNAPSHOT&quot;]</pre></div></div>
+<div class="section">
+<h3><a name="SBT"></a>SBT</h3><a name="SBT"></a>
+<div class="source">
+<pre>libraryDependencies += &quot;com.github.lonnyj&quot; %% &quot;webp-imageio-project&quot; % &quot;1.0.1-SNAPSHOT&quot;</pre></div></div></div>
       </div>
     </div>
     <div class="clear">
