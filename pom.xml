@@ -10,7 +10,7 @@
    <name>WebP ImageIO Project</name>
    <description>Java Image I/O reader and writer for the Google WebP image format.</description>
    <url>http://lonnyj.github.com/webp-imageio</url>
-   <inceptionYear>2014</inceptionYear>
+   <inceptionYear>2013</inceptionYear>
 
    <licenses>
       <license>
@@ -77,8 +77,20 @@
                <version>1.7</version>
             </plugin>
             <plugin>
+               <artifactId>maven-compiler-plugin</artifactId>
+               <version>3.1</version>
+            </plugin>
+            <plugin>
                <artifactId>maven-dependency-plugin</artifactId>
                <version>${maven-dependency-plugin.version}</version>
+            </plugin>
+            <plugin>
+               <artifactId>maven-deploy-plugin</artifactId>
+               <version>2.8.2</version>
+            </plugin>
+            <plugin>
+               <artifactId>maven-enforcer-plugin</artifactId>
+               <version>1.2</version>
             </plugin>
             <plugin>
                <artifactId>maven-failsafe-plugin</artifactId>
@@ -93,6 +105,14 @@
                <version>2.5.2</version>
             </plugin>
             <plugin>
+               <artifactId>maven-jar-plugin</artifactId>
+               <version>2.5</version>
+            </plugin>
+            <plugin>
+               <artifactId>maven-javadoc-plugin</artifactId>
+               <version>${maven-javadoc-plugin.version}</version>
+            </plugin>
+            <plugin>
                <artifactId>maven-release-plugin</artifactId>
                <version>2.5.1</version>
             </plugin>
@@ -105,11 +125,12 @@
                <version>3.4</version>
             </plugin>
             <plugin>
+               <artifactId>maven-source-plugin</artifactId>
+               <version>${maven-source-plugin.version}</version>
+            </plugin>
+            <plugin>
                <artifactId>maven-surefire-plugin</artifactId>
                <version>${maven-surefire-plugin.version}</version>
-               <configuration>
-                  <argLine>-Djava.library.path=${basedir}/../c</argLine>
-               </configuration>
             </plugin>
             <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
             <plugin>
@@ -150,6 +171,16 @@
                   </lifecycleMappingMetadata>
                </configuration>
             </plugin>
+            <plugin>
+               <groupId>com.googlecode.maven-download-plugin</groupId>
+               <artifactId>download-maven-plugin</artifactId>
+               <version>1.2.0</version>
+            </plugin>
+            <plugin>
+               <groupId>com.google.code.maven-replacer-plugin</groupId>
+               <artifactId>replacer</artifactId>
+               <version>1.5.3</version>
+            </plugin>
          </plugins>
       </pluginManagement>
       <plugins>
@@ -178,62 +209,12 @@
    <reporting>
       <plugins>
          <plugin>
-            <artifactId>maven-plugin-plugin</artifactId>
-            <version>3.2</version>
-         </plugin>
-         <plugin>
             <artifactId>maven-project-info-reports-plugin</artifactId>
             <version>2.7</version>
          </plugin>
          <plugin>
             <artifactId>maven-changelog-plugin</artifactId>
             <version>${maven-changelog-plugin.version}</version>
-         </plugin>
-         <plugin>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${maven-javadoc-plugin.version}</version>
-         </plugin>
-         <plugin>
-            <artifactId>maven-jxr-plugin</artifactId>
-            <version>2.3</version>
-         </plugin>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>taglist-maven-plugin</artifactId>
-            <version>2.4</version>
-         </plugin>
-         <plugin>
-            <artifactId>maven-surefire-report-plugin</artifactId>
-            <version>${maven-surefire-plugin.version}</version>
-         </plugin>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>cobertura-maven-plugin</artifactId>
-            <version>2.6</version>
-         </plugin>
-         <plugin>
-            <artifactId>maven-pmd-plugin</artifactId>
-            <version>3.0.1</version>
-            <configuration>
-               <rulesets>
-                  <ruleset>/rulesets/java/unusedcode.xml</ruleset>
-                  <ruleset>/rulesets/java/basic.xml</ruleset>
-                  <rulesets>${basedir}/rulesets/custom.xml</rulesets>
-               </rulesets>
-            </configuration>
-         </plugin>
-         <plugin>
-            <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>2.10</version>
-         </plugin>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-            <version>2.5.2</version>
-            <configuration>
-               <effort>Max</effort>
-               <onlyAnalyze>liquibase.ext.spatial</onlyAnalyze>
-            </configuration>
          </plugin>
          <plugin>
             <artifactId>maven-dependency-plugin</artifactId>

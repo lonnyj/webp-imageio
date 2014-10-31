@@ -15,20 +15,6 @@
    <description>Java Image I/O reader and writer for the Google WebP image format.</description>
 
    <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-      <!-- Plugin Versions -->
-      <build-helper-maven-plugin.version>1.8</build-helper-maven-plugin.version>
-      <maven-changelog-plugin.version>2.3</maven-changelog-plugin.version>
-      <maven-changes-plugin.version>2.9</maven-changes-plugin.version>
-      <maven-dependency-plugin.version>2.9</maven-dependency-plugin.version>
-      <maven-failsafe-plugin.version>${maven-surefire-plugin.version}</maven-failsafe-plugin.version>
-      <maven-javadoc-plugin.version>2.10</maven-javadoc-plugin.version>
-      <maven-source-plugin.version>2.3</maven-source-plugin.version>
-      <maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
-      <versions-maven-plugin.version>2.1</versions-maven-plugin.version>
-
       <libwebp.version>0.4.2</libwebp.version>
    </properties>
 
@@ -77,7 +63,6 @@
                <plugin>
                   <groupId>com.googlecode.maven-download-plugin</groupId>
                   <artifactId>download-maven-plugin</artifactId>
-                  <version>1.2.0</version>
                   <executions>
                      <execution>
                         <id>Download libwebp</id>
@@ -122,7 +107,6 @@
             <plugins>
                <plugin>
                   <artifactId>maven-enforcer-plugin</artifactId>
-                  <version>1.2</version>
                   <executions>
                      <execution>
                         <id>Enforce /usr/include on OS X</id>
@@ -143,6 +127,101 @@
                         </configuration>
                      </execution>
                   </executions>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+      <profile>
+         <id>fix-cygwin-path-to-java</id>
+         <activation>
+            <os>
+               <family>windows</family>
+            </os>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>com.google.code.maven-replacer-plugin</groupId>
+                  <artifactId>replacer</artifactId>
+                  <executions>
+                     <execution>
+                        <id>Replace C:/ with /cygdrive/c/</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                           <goal>replace</goal>
+                        </goals>
+                        <configuration>
+                           <includes>
+                              <include>${basedir}/CMakeFiles/webp-imageio.dir/*</include>
+                           </includes>
+                        </configuration>
+                     </execution>
+                  </executions>
+                  <configuration>
+                     <replacements>
+                        <replacement>
+                           <token>C:/</token>
+                           <value>/cygdrive/c/</value>
+                        </replacement>
+                     </replacements>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+      <profile>
+         <id>delete-dlls-before-compile</id>
+         <activation>
+            <os>
+               <family>windows</family>
+            </os>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-antrun-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                           <goal>run</goal>
+                        </goals>
+                        <configuration>
+                           <target>
+                              <delete>
+                                 <fileset dir="${basedir}" includes="CMakeFiles/**/*.obj"></fileset>
+                                 <fileset dir="${basedir}" includes="*.dll*"></fileset>
+                              </delete>
+                           </target>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>com.google.code.maven-replacer-plugin</groupId>
+                  <artifactId>replacer</artifactId>
+                  <executions>
+                     <execution>
+                        <id>Replace C:/ with /cygdrive/c/</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                           <goal>replace</goal>
+                        </goals>
+                        <configuration>
+                           <includes>
+                              <include>${basedir}/CMakeFiles/webp-imageio.dir/*</include>
+                           </includes>
+                        </configuration>
+                     </execution>
+                  </executions>
+                  <configuration>
+                     <replacements>
+                        <replacement>
+                           <token>C:/</token>
+                           <value>/cygdrive/c/</value>
+                        </replacement>
+                     </replacements>
+                  </configuration>
                </plugin>
             </plugins>
          </build>

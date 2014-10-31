@@ -1,7 +1,9 @@
 /CMakeFiles
 /cmake_install.cmake
 /cygwebp-imageio.dll
+/libwebp-imageio.dll
 /libwebp-imageio.dll.a
+/webp-imageio.dll
 /Makefile
 /libwebp-imageio.so
 /target/
@@ -12,6 +14,5 @@
 /libwebp-imageio.dylib
 /pom.xml.bak
 /CMakeCache.txt
-/libwebp-imageio.dll
 /libwebp-0.4.2/
 /libwebp-0.4.2/
