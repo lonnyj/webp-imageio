@@ -7,5 +7,8 @@
 /pom.xml.bak
 /.settings/
 /.project
+/.classpath
 /libwebp-0.4.2
 /target
+/src/main/include/webp/*
+/src/main/c/*/*.c
