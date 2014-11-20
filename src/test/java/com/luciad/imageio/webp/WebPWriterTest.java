@@ -7,7 +7,10 @@ import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -68,6 +71,52 @@ public class WebPWriterTest {
             new Object[] { loadImage("3.png"), "3.webp" },
             new Object[] { loadImage("4.png"), "4.webp" },
             new Object[] { loadImage("5.png"), "5.webp" } };
+   }
+
+   /**
+    * Tests reading WebP images using {@link ImageIO#read(File)}. The image is
+    * then written as a PNG in the original directory.
+    * 
+    * @param testName
+    *           the name of the directory containing the test image.
+    * @param fileName
+    *           the name of the test image.
+    * @throws IOException
+    *            if unable to read or write images.
+    */
+   @Test(dataProvider = "getWebPImages", alwaysRun = true, dependsOnMethods = { "testImageIoWrite",
+         "testImageWriterCompression", "testImageWriterScale" })
+   public void testImageIoRead(final String testName, final String fileName) throws IOException {
+      final String inputName = "target" + File.separator + testName + File.separator + fileName;
+      final BufferedImage image = ImageIO.read(new File(inputName));
+      final String outputName = fileName.substring(0, fileName.lastIndexOf('.') + 1) + "png";
+      final File file = createOutputFile(testName, outputName);
+      ImageIO.write(image, "png", file);
+   }
+
+   /**
+    * The data provider for {@link #testImageIoRead}. Uses all of the images
+    * written from the other tests as test images for reading.
+    *
+    * @return the test data.
+    */
+   @DataProvider
+   public Object[][] getWebPImages() {
+      final List<Object[]> data = new ArrayList<Object[]>();
+      for (final String testName : new String[] { "ImageIo", "CompressionOptions", "ScaleOptions" }) {
+         final File parentDirectory = new File("target" + File.separator + testName);
+         final String[] images = parentDirectory.list(new FilenameFilter() {
+
+            @Override
+            public boolean accept(final File dir, final String name) {
+               return name.endsWith(".webp");
+            }
+         });
+         for (final String name : images) {
+            data.add(new Object[] { testName, name });
+         }
+      }
+      return data.toArray(new Object[data.size()][]);
    }
 
    /**
