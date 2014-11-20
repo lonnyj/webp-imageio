@@ -3,7 +3,7 @@
    <modelVersion>4.0.0</modelVersion>
 
    <groupId>com.github.lonnyj</groupId>
-   <artifactId>webp-imageio-project</artifactId>
+   <artifactId>webp-imageio</artifactId>
    <version>1.0.1-SNAPSHOT</version>
    <packaging>nar</packaging>
 
