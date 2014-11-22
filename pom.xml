@@ -12,6 +12,11 @@
    <url>http://lonnyj.github.com/webp-imageio</url>
    <inceptionYear>2013</inceptionYear>
 
+   <organization>
+      <name>Luciad</name>
+      <url>http://www.luciad.com/</url>
+   </organization>
+
    <licenses>
       <license>
          <name>The Apache Software License, Version 2.0</name>
@@ -20,6 +25,13 @@
          <comments>A business-friendly OSS license</comments>
       </license>
    </licenses>
+
+   <developers>
+      <developer>
+         <name>Pepijn Van Eeckhoudt</name>
+         <url>https://bitbucket.org/pepijnve</url>
+      </developer>
+   </developers>
 
    <modules>
       <module>c</module>
